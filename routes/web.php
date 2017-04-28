@@ -38,5 +38,7 @@ Route::resource('brands','BrandsController');
 Route::resource('listingtypes','ListingTypesController');
 
 //route for Products
+Route::get('products/areas/{state_id}', 'ProductsController@getStateAreas');
+Route::get('products/subcategories/{category_id}', 'ProductsController@getCategorySubcategories');
 Route::resource('products','ProductsController');
 
