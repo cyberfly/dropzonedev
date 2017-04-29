@@ -78,6 +78,11 @@
             </div>
         </nav>
 
+        <!-- paparkan success/error/warning/info message -->
+        <div class="container-fluid">
+            @include('flash::message')
+        </div>
+
         @yield('content')
     </div>
 

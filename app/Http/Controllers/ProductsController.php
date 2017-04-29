@@ -18,11 +18,42 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        //eager loading relationship to prevent multiple db queries
 
-        return view('products.index',compact('products'));         
+        $products = Product::with('brand','subcategory','area','user');
+
+        //conditional searching
+
+        //if user type in textbox search by product name / product description
+
+        if (!empty($request->search_anything)) {
+
+            $search_anything = $request->search_anything;
+
+            $products = $products->where(function ($query) use ($search_anything) {
+                            $query->orWhere('product_name', 'like', '%'.$search_anything.'%')
+                                ->orWhere('product_description', 'like' ,'%'.$search_anything.'%');
+                        });
+        }
+
+
+
+
+        //paginate the data
+
+        $products = $products->paginate(5);
+
+        //load additional data for searching
+
+        $brands = Brand::pluck('brand_name','id');
+
+        $categories = Category::pluck('category_name','id');
+        
+        $states = State::pluck('state_name','id');
+
+        return view('products.index',compact('products','brands','categories','states'));         
     }
 
     /**
@@ -60,9 +91,27 @@ class ProductsController extends Controller
         //dapatkan current user id
         $product->user_id = auth()->id();
 
+
+        //if have file to upload
+
+
+        if ($request->hasFile('product_image')) {
+
+            $path = $request->product_image->store('images');
+
+            //save product image name
+            $product->product_image = $request->product_image->hashName();
+            
+        }
+
+
         $product->save();
 
-        //selepas berjaya simpan, kembali ke senarai product
+        //selepas berjaya simpan, set success message
+
+        flash('Product successfully inserted')->success();
+
+        //kembali ke senarai product
 
         return redirect()->route('products.index');
     }
@@ -86,7 +135,19 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        //dapatkan maklumat produk sedia ada
+        $product = Product::find($id);
+
+        $brands = Brand::pluck('brand_name','id');
+        $states = State::pluck('state_name','id');
+        $categories = Category::pluck('category_name','id');
+
+        //get area based on previously selected state
+
+        $areas = $this->getStateAreas($product->area->state_id);
+        $subcategories = $this->getCategorySubcategories($product->subcategory->category_id);
+
+        return view('products.edit',compact('brands','states','categories','product','areas','subcategories'));
     }
 
     /**
@@ -98,7 +159,36 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->product_name = $request->product_name;
+        $product->product_description = $request->product_description;
+        $product->product_price = $request->product_price;
+        $product->brand_id = $request->brand_id;
+        $product->area_id = $request->area_id;
+        $product->subcategory_id = $request->subcategory_id;
+        $product->condition = $request->condition;
+
+        //if have file to upload
+
+        if ($request->hasFile('product_image')) {
+
+            $path = $request->product_image->store('images');
+
+            //save product image name
+            $product->product_image = $request->product_image->hashName();
+            
+        }
+
+        $product->save();
+
+        //selepas berjaya simpan, set success message
+
+        flash('Product successfully updated')->success();
+
+        //kembali ke senarai product
+
+        return redirect()->route('products.edit',$product->id);
     }
 
     /**
