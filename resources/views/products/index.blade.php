@@ -103,6 +103,7 @@
                         
                         <thead>
                             <tr>
+                                <th>Thumbnail</th>
                                 <th>Product Title</th>
                                 <th>Product Description</th>
                                 <th>Price</th>
@@ -120,6 +121,9 @@
                             @foreach($products as $product)
                             
                             <tr>
+                                <td>
+                                    <img src="{{ asset('uploads/'.$product->product_image) }}">
+                                </td>
                                 <td>
                                     {{ $product->product_name }}
                                 </td>
