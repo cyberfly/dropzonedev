@@ -38,7 +38,53 @@ class ProductsController extends Controller
                         });
         }
 
+        //search by state
 
+
+        if (!empty($request->search_state)) {
+            
+            $search_state = $request->search_state;
+
+            $products = $products->whereHas('area', function ($query) use ($search_state) {
+                $query->where('state_id', $search_state);
+            });
+
+        }
+
+        //search by category
+
+
+        if (!empty($request->search_category)) {
+            
+            $search_category = $request->search_category;
+
+            $products = $products->whereHas('subcategory', function ($query) use ($search_category) {
+                $query->where('category_id', $search_category);
+            });
+
+        }
+
+        //search by brand
+
+
+        if (!empty($request->search_brand)) {
+            $search_brand = $request->search_brand;
+            $products = $products->whereBrandId($search_brand);
+        }
+
+        //search by area
+
+        if (!empty($request->search_area)) {
+            $search_area = $request->search_area;
+            $products = $products->whereAreaId($search_area);
+        }
+
+        //search by subcategory
+
+        if (!empty($request->search_subcategory)) {
+            $search_subcategory = $request->search_subcategory;
+            $products = $products->whereSubcategoryId($search_subcategory);
+        }
 
 
         //paginate the data
