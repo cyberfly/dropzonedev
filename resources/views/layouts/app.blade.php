@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link href="{{ asset('css/sweetalert.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -88,6 +90,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <!-- SweetAlert JS -->
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
 </body>
 </html>
 <!-- custom scripts -->

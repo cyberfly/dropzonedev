@@ -91,7 +91,7 @@
                   <div class="form-group">
                     
                     @if(!empty($product->product_image))
-                      <img src="{{ asset('storage/images/'.$product->product_image) }}">
+                      <img src="{{ asset('storage/uploads/'.$product->product_image) }}" class="img-responsive">
                     @endif
 
                   </div>

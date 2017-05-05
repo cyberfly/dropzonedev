@@ -86,6 +86,9 @@ class ProductsController extends Controller
             $products = $products->whereSubcategoryId($search_subcategory);
         }
 
+        //sort by latest product
+
+        $products = $products->orderBy('id','desc');
 
         //paginate the data
 
@@ -219,7 +222,7 @@ class ProductsController extends Controller
 
         if ($request->hasFile('product_image')) {
 
-            $path = $request->product_image->store('images');
+            $path = $request->product_image->store('public/uploads');
 
             //save product image name
             $product->product_image = $request->product_image->hashName();
@@ -245,7 +248,15 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+
+        $product->delete();
+
+        flash('Product successfully deleted')->success();
+
+        return redirect()->route('products.index');
+
+
     }
 
     //return areas for state

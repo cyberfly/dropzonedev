@@ -103,7 +103,7 @@
                         
                         <thead>
                             <tr>
-                                <th>Thumbnail</th>
+                                <th style="width:150px;">Thumbnail</th>
                                 <th>Product Title</th>
                                 <th>Product Description</th>
                                 <th>Price</th>
@@ -122,7 +122,13 @@
                             
                             <tr>
                                 <td>
-                                    <img src="{{ asset('uploads/'.$product->product_image) }}">
+
+                                    @if(!empty($product->product_image))
+                                        <img src="{{ asset('storage/uploads/'.$product->product_image) }}" class="img-thumbnail">
+                                    @else
+                                        <img src="{{ asset('storage/uploads/default_thumbnail.jpg') }}" class="img-thumbnail">
+                                    @endif
+
                                 </td>
                                 <td>
                                     {{ $product->product_name }}
@@ -149,7 +155,19 @@
                                     {{ $product->brand->brand_name }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+
+                                    <form method="POST" action="{{ route('products.destroy',$product->id) }}">
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        {{ csrf_field() }}
+                                        
+                                        <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+
+                                        <button type="button" class="btn btn-danger delete">Delete</button>
+                                        
+                                    </form>
+
                                 </td>
                             </tr>
 
@@ -287,6 +305,31 @@ $( document ).ready(function() {
         });
 
     }
+
+    //bila pengguna click butang delete
+
+    $('.delete').click(function() {
+        //sweet alert confirm
+
+        //dapatkan form terdekat dengan butang delete yang kita tekan
+        var closest_form = $(this).closest('form');
+
+        swal({
+          title: "Are you sure?",
+          text: "You will not be able to recover this imaginary file!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false
+        },
+        function(){
+          //bila tekan OK, submit form yang terdekat
+          closest_form.submit();
+        });
+
+
+    });
 
 });    
 
