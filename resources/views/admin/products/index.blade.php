@@ -11,7 +11,7 @@
 
                 <div class="panel-body">
 
-                    <form action="{{ route('products.index') }}" method="GET" >
+                    <form action="{{ route('admin.products.index') }}" method="GET" >
                         
 
                     <div class="row">
@@ -97,11 +97,7 @@
 
                 <div class="panel-body">
 
-                    @role('members')
-
-                    <a href="{{ route('products.create') }}" class="btn btn-warning">Create Product</a>
-                    
-                    @endrole
+                    <a href="{{ route('admin.products.create') }}" class="btn btn-warning">Create Product</a>
                     
                     <table class="table table-bordered table-hover table-striped">
                         
@@ -117,7 +113,6 @@
                                 <th>User</th>
                                 <th>Brand</th>
                                 <th>Action</th>
-                                
                             </tr>
                         </thead>
 
@@ -161,7 +156,17 @@
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('products.show',$product->id) }}" class="btn btn-info">Show</a>
+                                    <form method="POST" action="{{ route('admin.products.destroy',$product->id) }}">
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        {{ csrf_field() }}
+                                        
+                                        <a href="{{ route('admin.products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+
+                                        <button type="button" class="btn btn-danger delete">Delete</button>
+                                        
+                                    </form>
 
                                 </td>
                             </tr>
@@ -221,7 +226,7 @@ $( document ).ready(function() {
 
           //define route untuk hantar id state ke controller, grab data area
 
-          var ajax_url = '/products/areas/' + state_id;
+          var ajax_url = '/admin/products/areas/' + state_id;
 
           //dapatkan areas data dari Controller menggunakan Ajax
 
@@ -276,7 +281,7 @@ $( document ).ready(function() {
 
         //hantar id state ke controller, grab data area
 
-        var ajax_url = '/products/subcategories/' + category_id;
+        var ajax_url = '/admin/products/subcategories/' + category_id;
 
         $.get( ajax_url, function( data ) {
           

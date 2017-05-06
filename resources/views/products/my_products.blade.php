@@ -93,7 +93,7 @@
 
 
             <div class="panel panel-warning">
-                <div class="panel-heading">Manage Products</div>
+                <div class="panel-heading">Manage My Listed Products</div>
 
                 <div class="panel-body">
 
@@ -117,7 +117,6 @@
                                 <th>User</th>
                                 <th>Brand</th>
                                 <th>Action</th>
-                                
                             </tr>
                         </thead>
 
@@ -161,7 +160,17 @@
                                 </td>
                                 <td>
 
-                                    <a href="{{ route('products.show',$product->id) }}" class="btn btn-info">Show</a>
+                                    <form method="POST" action="{{ route('products.destroy',$product->id) }}">
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        {{ csrf_field() }}
+                                        
+                                        <a href="{{ route('products.edit',$product->id) }}" class="btn btn-info">Edit</a>
+
+                                        <button type="button" class="btn btn-danger delete">Delete</button>
+                                        
+                                    </form>
 
                                 </td>
                             </tr>

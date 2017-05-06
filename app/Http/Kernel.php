@@ -18,6 +18,9 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // 'role' => \Laratrust\Middleware\LaratrustRole::class,
+        // 'permission' => \Laratrust\Middleware\LaratrustPermission::class,
+        // 'ability' => \Laratrust\Middleware\LaratrustAbility::class,
     ];
 
     /**
@@ -56,5 +59,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'check_user_role' => \App\Http\Middleware\CheckUserRole::class,
+        'check_product_ownership' => \App\Http\Middleware\CheckProductOwnership::class,
     ];
 }

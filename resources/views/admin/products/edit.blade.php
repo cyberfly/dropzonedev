@@ -30,7 +30,7 @@
 
                   <!-- tambah form kat sini -->
 
-                  {!! Form::open(['route' => ['products.update',$product->id], 'method'=>'PUT', 'files' => true ]) !!}
+                  {!! Form::open(['route' => ['admin.products.update',$product->id], 'method'=>'PUT', 'files' => true ]) !!}
 
                   <div class="form-group {{ $errors->has('category_id') ? 'has-error' : false }} ">
                       {!! Form::label('category_id', 'Category') !!}   
@@ -100,7 +100,7 @@
                       
                       <button type="submit" class="btn btn-primary">Submit</button>
 
-                      <a href="{{ route('my_products') }}" class="btn btn-default">Cancel</a>
+                      <a href="{{ route('admin.products.index') }}" class="btn btn-default">Cancel</a>
 
                   </div>
 
@@ -147,7 +147,7 @@
 
           //define route untuk hantar id state ke controller, grab data area
 
-          var ajax_url = '/products/areas/' + state_id;
+          var ajax_url = '/admin/products/areas/' + state_id;
 
           //dapatkan areas data dari Controller menggunakan Ajax
 
@@ -181,7 +181,7 @@
 
             //hantar id state ke controller, grab data area
 
-            var ajax_url = '/products/subcategories/' + category_id;
+            var ajax_url = '/admin/products/subcategories/' + category_id;
 
             $.get( ajax_url, function( data ) {
               
