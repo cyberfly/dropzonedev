@@ -18,9 +18,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        // 'role' => \Laratrust\Middleware\LaratrustRole::class,
-        // 'permission' => \Laratrust\Middleware\LaratrustPermission::class,
-        // 'ability' => \Laratrust\Middleware\LaratrustAbility::class,
     ];
 
     /**

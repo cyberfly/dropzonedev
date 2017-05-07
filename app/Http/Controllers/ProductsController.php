@@ -216,16 +216,7 @@ class ProductsController extends Controller
         //dapatkan maklumat produk sedia ada
         $product = Product::find($id);
 
-        $brands = Brand::pluck('brand_name','id');
-        $states = State::pluck('state_name','id');
-        $categories = Category::pluck('category_name','id');
-
-        //get area based on previously selected state
-
-        $areas = $this->getStateAreas($product->area->state_id);
-        $subcategories = $this->getCategorySubcategories($product->subcategory->category_id);
-
-        return view('products.edit',compact('brands','states','categories','product','areas','subcategories'));
+        return view('products.edit',compact('product'));
     }
 
     /**
