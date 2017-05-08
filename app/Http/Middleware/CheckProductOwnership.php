@@ -37,6 +37,9 @@ class CheckProductOwnership
                 dd("PERIGAT JANGE MENCEROBOH");
             }
         }
+        else{
+            dd("Produk tidak wujud");
+        }
 
         return $next($request);
     }
